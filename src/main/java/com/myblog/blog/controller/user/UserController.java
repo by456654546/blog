@@ -11,15 +11,27 @@ import com.myblog.blog.quaryentity.*;
 import com.myblog.blog.quaryentity.BlogQuery;
 import com.myblog.blog.quaryentity.FirstPageBlog;
 import com.myblog.blog.quaryentity.FollowEntity;
+import com.myblog.blog.util.JsonResult;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import com.myblog.blog.Service.ex.*;
 
 @Controller
 @RequestMapping("/user")
@@ -189,7 +201,6 @@ public  String dd(String username, String password, HttpSession session,
     public String getMeMessage(HttpSession session,Model model,@RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum)
     {
         User user = (User)session.getAttribute("user");
-        System.out.println("进入");
         User detailUser = userService.getDetailUser(user.getId());
         model.addAttribute("user",detailUser);
         String orderBy = "id desc";
@@ -244,9 +255,49 @@ public  String dd(String username, String password, HttpSession session,
         return "redirect:/";
     }
     @PostMapping("/update")
+
     public String updateUser(User user)
     {
+        System.out.println(user);
+        userService.updateUser(user);
+        return "redirect:/user/me";
+    }
+    @RequestMapping("/change_avatar")
+    public JsonResult<String> changeAvatar(HttpSession session,
+                                           @RequestParam("file") MultipartFile file) {
 
-        return "userDetail";
+        if(file.isEmpty()) {
+            try {
+                throw new FileUploadException("文件为空");
+            } catch (FileUploadException e) {
+                e.printStackTrace();
+            }
+        }
+        //
+        String realPath = session.getServletContext().getRealPath("/upload");
+        File dir = new File(realPath);
+        if(!dir.exists()) {
+            dir.mkdirs();//创建当前目录
+        }
+//        获取文件名称
+        String originalFilename = file.getOriginalFilename();
+        //获取文件名后缀
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+//        使用UUID随机生成一个新的文件名称前缀，拼接文件名称
+        String filename = UUID.randomUUID().toString().toUpperCase() + suffix;
+        //在指定位置创建一个空文件
+        File destFile = new File(dir, filename);
+        try {
+            file.transferTo(destFile);//将file文件中的数据写入到destFile中
+        } catch (IOException e) {
+            try {
+                throw new FileUploadException("文件读写异常");
+            } catch (FileUploadException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //返回头像路径/upload/test.png
+        String avatar = "/upload/" + filename;
+        return new JsonResult<>(200, avatar);
     }
 }

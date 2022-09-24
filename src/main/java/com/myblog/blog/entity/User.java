@@ -1,5 +1,7 @@
 package com.myblog.blog.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +19,7 @@ public class User {
     private String email;
     private long fans ;
     private long follows;
+    @DateTimeFormat(pattern = "yyyy/mm/nn dd:vv")
     private Date createTime;
     private Date updateTime;
     private String introduction;

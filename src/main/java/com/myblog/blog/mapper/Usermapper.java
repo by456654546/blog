@@ -21,7 +21,7 @@ public interface Usermapper {
         User getUserById(Integer id);
         //根据分类名查询分类
         User getUserByName(String nickname);
-        //修改分类
+        //修改
         int updateUser(User user);
         //删除分类
         void deleteUser(Integer id);

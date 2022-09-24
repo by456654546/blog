@@ -63,4 +63,5 @@ public interface UserService {
        int updateFans(long userId);
        int deleteFollow(long userId);
        int deleteFans(long userId);
+
 }

@@ -10,7 +10,7 @@
         insert myblog.t_follow(t_userId,t_follow.t_followId,hasfollowed) VALUES(#{userId},#{followId},1)
     </insert>
     <update id="updateUser">
-        update t_user set nickname = #{nickname},avatar=#{avatar},password=#{password},email=#{email} where id = #{id}
+        update t_user set nickname = #{nickname},introduction=#{introduction} where id = #{id}
     </update>
     <update id="updateFollow">
         update t_user u set follows=follows+1

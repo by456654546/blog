@@ -177,17 +177,18 @@
 </footer>
 <style>
 
-    *{
-        margin: 0;
-        padding: 0;
-    }
+    /**{*/
+    /*    margin: 0;*/
+    /*    padding: 0;*/
+    /*}*/
+
     #container{
-    background: url("../static/images/background.jpg") no-repeat center center fixed;
-    background-size: cover;
+    /*background: url("../static/images/background.jpg") no-repeat center center fixed;*/
+    /*background-size: cover;*/
     border: 1px solid #000;
     width: 500px;
     height: 400px;
-    margin: 100px auto;
+    margin: -350px ;
     opacity: 0.8;
     border-radius: 25px;
     box-shadow: 0 0 100px rgb(76, 107, 154);
@@ -206,6 +207,7 @@
         text-align: right;
         margin-right: 10px;
         border-radius: 50px;
+
     }
     .form-input{
         flex: 8;
@@ -214,23 +216,19 @@
         margin-left: 100px !important;
 
     }
-    textarea
-    {
-      width: 50px;
-      height: 50px;
 
-    }
     .block
     {
       height: 30px;
-
     }
     .error{color:red}
 </style>
-    <div id="container">
+    <div  class="ui modal" id="container">
       <div class="block"></div>
       <h3>编辑资料</h3>
-      <form class="ui modal" method="post" th:action="@{/user/update}">
+
+      <form  method="post" th:action="@{/user/update}">
+        <input type="hidden" name="id" th:value="${session.user.id}">
       <div class="form-group">
         <label for="username" class="form-label">用户名：</label>
         <div class="form-input">
@@ -251,7 +249,7 @@
           &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;  </p>
         <label class="form-label">我的签名：</label>
-        <textarea class="form-input" rows="5" cols="10"  name="introduction" th:value="${user.introduction}"style="resize:none">11111111</textarea>
+        <input type="text" class="form-input"  name="introduction" th:value="${user.introduction}"style="resize:none">
         <p>  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
@@ -270,7 +268,7 @@
       <div class="form-group">
         <label  class="form-label">出生日期:</label>
         <div class="form-input">
-          <input type="datetime-local" >
+          <input type="datetime-local">
         </div>
       </div>
       <div class="button ">
@@ -299,9 +297,15 @@
       $("#table-container").load(/*[[@{/user/search}]]*/,{
         title : $("[name='title']").val(),
         typeId : $("[name='typeId']").val(),
-        page : $("[name='page']").val()
+        page : $("[name='page']").val(),
+        userId: $("[name='userId']").val()
       });
     }
+
+
+
+
+
     let btn = document.getElementById('btn');
         let nickname = document.getElementById('nickname');
          btn.onclick = function(){
@@ -337,7 +341,6 @@
             let error = elem.nextElementSibling;
             error.innerHTML = "";
             error.style.display = 'none';
-
         }
 </script>
 </body>

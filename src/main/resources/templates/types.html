@@ -27,21 +27,23 @@
                         </div>
                     </form>
                 </div>
-                <div class="ui icon inverted transparent input">
+                <div class="ui icon inverted transparent input small">
                     <form name="searchUser" action="#" th:action="@{/user/UserSearch}" method="post" target="_blank">
-                        <div class="ui icon transparent input m-margin-tb-tiny" style="color: white">
+                        <div class="ui icon transparent input m-margin-tb-small" style="color: white">
                             <input style="color: white" type="text" name="queryUser" placeholder="Search User" th:value="${queryUser}">
                             <i onclick="document.forms['searchUser'].submit()" class="search link icon"></i>
                         </div>
                     </form>
                 </div>
-                <div class="right menu" th:if="${session.user}">
-                    <a th:href="@{/user/me}"><img class="ui avatar image" th:src="${session.user.avatar}" src="../images/3.png"></a>
-                </div>
+
                 <div th:if="${session.user==null}" class="right item login">
                     <a href="#" th:href="@{/user/login}"class="item">登录</a><p style="padding-top: 12px;">/</p>
                     <a href="#"th:href="@{/user/register}" class="item">注册</a>
                 </div>
+            </div>
+            <div class="" th:if="${session.user}" style="padding-left: 50px">
+                <a th:href="@{/user/me}"><img class="ui avatar image" th:src="${session.user.avatar}" src="../images/3.png" style="margin-top: 25px" ></a>
+
             </div>
         </div>
     </div>

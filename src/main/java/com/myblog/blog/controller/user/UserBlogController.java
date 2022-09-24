@@ -83,4 +83,10 @@ public class UserBlogController {
         }
         return "redirect:/user/me";
     }
+    @GetMapping("/blogs/{id}/delete")
+    public String delete(@PathVariable Integer id, RedirectAttributes attributes) {
+        blogService.deleteBlog(id);
+        attributes.addFlashAttribute("message", "删除成功");
+        return "redirect:/user/me";
+    }
 }

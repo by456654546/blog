@@ -46,22 +46,21 @@ public class BlogServiceimpl implements BlogService {
         blog.setCreateTime(new Date());
         blog.setUpdateTime(new Date());
         blog.setViews(0);
+        blog.setDayViews(0);
         blog.setCommentCount(0);
         blog.setUps(0);
         blogmapper.saveBlog(blog);
         Integer id = blog.getId();
         System.out.println(id);
         //将标签的数据存到t_blogs_tag表中
-        List<Tag> tags=blog.getTags();
-        BlogAndTag blogAndTag=null;
-        for(Tag tag :tags)
-        {
-            blogAndTag=new BlogAndTag(id,tag.getId());
+        List<Tag> tags = blog.getTags();
+        BlogAndTag blogAndTag = null;
+        for (Tag tag : tags) {
+            blogAndTag = new BlogAndTag(id, tag.getId());
             blogmapper.saveBlogAndTag(blogAndTag);
         }
         return 1;
     }
-
     /**
      * 更新博客，修改更新时间
      * @param showBlog

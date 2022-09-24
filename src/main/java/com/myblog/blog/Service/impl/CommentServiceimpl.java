@@ -19,8 +19,6 @@ public class CommentServiceimpl implements CommentService {
     private Blogmapper blogmapper;
     /**
      * @Description: 查询评论
-     * @Auther: ONESTAR
-     * @Date: 10:42 2020/6/23
      * @Param: blogId：博客id
      * @Return: 评论消息
      */
